@@ -1,4 +1,4 @@
-# SQL_queries
+# SQL queries
 Displays the SQL queries that I worked on during my Career Foundry Data Analyst Course.
 ## Project Rockbuster Stealth LLC
 The company Rockbuster has stores all over the world, it is plannning the next steps due to the competition with other streaming companies such as Netflix and Amazon Prime. 
