@@ -92,64 +92,6 @@ INNER JOIN payment E ON a.customer_id = E.customer_id
 GROUP BY country
 
 
-# Top countries info: total amount paid, total transactions per Category. The ex below is India:
-
-SELECT SUM(payment.amount) AS total_amount_paid,
-   COUNT(payment.payment_id) AS total_payments,
-   category.name
-FROM payment
-INNER JOIN rental ON payment.rental_id = rental.rental_id
-INNER JOIN inventory ON rental.inventory_id = inventory.inventory_id
-INNER JOIN film ON inventory.film_id = film.film_id
-INNER JOIN film_category ON film_category.film_id = film.film_id
-INNER JOIN category ON film_category.category_id = category.category_id
-INNER JOIN customer ON payment.customer_id = customer.customer_id
-INNER JOIN address ON customer.address_id = address.address_id
-INNER JOIN city ON address.city_id = city.city_id
-INNER JOIN country ON city.country_id = country.country_id
-WHERE country.country = 'India'
-GROUP BY category.name 
-ORDER BY total_amount_paid DESC
-
-
-
-# Top cities in the most popular countries:
-
-SELECT COUNT(A.customer_id) AS number_of_customers,
-                  C.city AS city
-FROM customer A
-INNER JOIN address B ON A.address_id = B.address_id
-INNER JOIN city C ON C.city_id = B.city_id
-INNER JOIN country D ON D.country_id = C.country_id
-WHERE country IN ('India', 'China', 'United States', 'Japan', 'Mexico', 'Brazil', 'Russian Federation', 'Philippines', 'Turkey', 'Indonesia')
-GROUP BY city
-ORDER BY number_of_customers DESC
-LIMIT 10
-
-
-# Top customers in those cities:
-
-SELECT C.city AS city,
-               A.first_name AS first_name,
-               A.last_name AS last_name,
-               D.country AS country,
-               SUM(AMOUNT) AS total_amount_paid
-FROM customer A
-INNER JOIN address B ON A.address_id = B.address_id
-INNER JOIN city C ON B.city_id = C.city_id
-INNER JOIN country D ON C.country_id = D.country_id
-INNER JOIN payment E ON A.customer_id = E.customer_id
-WHERE city IN ('Aurora', 'Tokat', 'Tarsus', 'Atlixco', 'Emeishan', 'Pontianak', 'Shimoga', 'Aparecida de Goinia', 'Zalantun', 'Taguig')
-GROUP BY A.customer_id,
-                      A.first_name,
-                      A.last_name,
-                       country,
-                       city
-ORDER BY total_amount_paid DESC
-LIMIT 5
-
-
-
 # Total Payments per month
 
 SELECT SUM(payment.amount) AS total_amount_paid,
